@@ -1,93 +1,44 @@
-var ColorHelper = (function () {
-    function ColorHelper() {
+var Particle = (function () {
+    function Particle(x, y, numberOfLines) {
+        this.rays = [];
+        this.position = createVector(x, y);
+        var angle = TWO_PI / numberOfLines;
+        for (var i = 0; i < TWO_PI; i += angle) {
+            this.rays.push(new Ray(this.position, i));
+        }
     }
-    ColorHelper.getColorVector = function (c) {
-        return createVector(red(c), green(c), blue(c));
-    };
-    ColorHelper.rainbowColorBase = function () {
-        return [
-            color('red'),
-            color('orange'),
-            color('yellow'),
-            color('green'),
-            color(38, 58, 150),
-            color('indigo'),
-            color('violet')
-        ];
-    };
-    ColorHelper.getColorsArray = function (total, baseColorArray) {
-        var _this = this;
-        if (baseColorArray === void 0) { baseColorArray = null; }
-        if (baseColorArray == null) {
-            baseColorArray = ColorHelper.rainbowColorBase();
+    Particle.prototype.draw = function () {
+        for (var _i = 0, _a = this.rays; _i < _a.length; _i++) {
+            var ray = _a[_i];
+            ray.draw();
         }
-        var rainbowColors = baseColorArray.map(function (x) { return _this.getColorVector(x); });
-        ;
-        var colours = new Array();
-        for (var i = 0; i < total; i++) {
-            var colorPosition = i / total;
-            var scaledColorPosition = colorPosition * (rainbowColors.length - 1);
-            var colorIndex = Math.floor(scaledColorPosition);
-            var colorPercentage = scaledColorPosition - colorIndex;
-            var nameColor = this.getColorByPercentage(rainbowColors[colorIndex], rainbowColors[colorIndex + 1], colorPercentage);
-            colours.push(color(nameColor.x, nameColor.y, nameColor.z));
-        }
-        return colours;
     };
-    ColorHelper.getColorByPercentage = function (firstColor, secondColor, percentage) {
-        var firstColorCopy = firstColor.copy();
-        var secondColorCopy = secondColor.copy();
-        var deltaColor = secondColorCopy.sub(firstColorCopy);
-        var scaledDeltaColor = deltaColor.mult(percentage);
-        return firstColorCopy.add(scaledDeltaColor);
-    };
-    return ColorHelper;
+    return Particle;
 }());
-var PolygonHelper = (function () {
-    function PolygonHelper() {
+var Ray = (function () {
+    function Ray(position, direction) {
+        this.position = position;
+        this.direction = direction;
     }
-    PolygonHelper.draw = function (numberOfSides, width) {
+    Ray.prototype.draw = function () {
         push();
-        var angle = TWO_PI / numberOfSides;
-        var radius = width / 2;
-        beginShape();
-        for (var a = 0; a < TWO_PI; a += angle) {
-            var sx = cos(a) * radius;
-            var sy = sin(a) * radius;
-            vertex(sx, sy);
-        }
-        endShape(CLOSE);
+        stroke(255);
+        line(this.position.x, this.position.y, this.position.x + cos(this.direction) * 1000, this.position.y + sin(this.direction) * 1000);
         pop();
     };
-    return PolygonHelper;
+    return Ray;
 }());
-var numberOfShapesControl;
 function setup() {
     console.log("🚀 - Setup initialized - P5 is running");
     createCanvas(windowWidth, windowHeight);
-    rectMode(CENTER).noFill().frameRate(30);
-    numberOfShapesControl = createSlider(1, 30, 15, 1).position(10, 10).style("width", "100px");
+    rectMode(CENTER).noFill().frameRate(60);
 }
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
 }
 function draw() {
     background(0);
-    translate(width / 2, height / 2);
-    var numberOfShapes = numberOfShapesControl.value();
-    var colours = ColorHelper.getColorsArray(numberOfShapes);
-    var speed = (frameCount / (numberOfShapes * 30)) * 2;
-    for (var i = 0; i < numberOfShapes; i++) {
-        push();
-        var lineWidth = 8;
-        var spin = speed * (numberOfShapes - i);
-        var numberOfSides = 3 + i;
-        var width_1 = 40 * i;
-        strokeWeight(lineWidth);
-        stroke(colours[i]);
-        rotate(spin);
-        PolygonHelper.draw(numberOfSides, width_1);
-        pop();
-    }
+    var particle = new Particle(windowWidth / 2, windowHeight / 2, 50);
+    particle.draw();
 }
 //# sourceMappingURL=build.js.map
