@@ -1,32 +1,22 @@
 
-# P5 TypeScript Starter
+# 2D Raycasting
 
-This project will quickly get you something working in [p5.js](https://p5js.org/) and [typescript](https://www.typescriptlang.org/).
-
-## Demo
-
-**[Click here for Demo](https://gaweph.github.io/p5-typescript-starter/)**
-
-![Demo](https://gaweph.github.io/p5-typescript-starter/p5-typescript-demo.png?raw=true "Demo")
-
-This demo is based on the [Regular Polygon](https://p5js.org/examples/form-regular-polygon.html) sketch available in the p5js examples.
+This is an 2D implementation of [Ray casting](https://en.wikipedia.org/wiki/Ray_casting), written
+with [p5.js](https://p5js.org/)
+and [typescript](https://www.typescriptlang.org/).
 
 ## Getting Started
 
 ### Installing
 
 ```
-git clone https://github.com/Gaweph/p5-typescript-starter.git
-```
-
-```
-npm install
+pnpm install
 ```
 
 ### Using
 
 ```
-npm start
+pnpm start
 ```
 
 A local version will now be running on [localhost:3000](http://localhost:3000).
