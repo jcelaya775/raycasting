@@ -18,9 +18,10 @@ var Particle = (function () {
     function Particle(x, y, numberOfLines) {
         this.rays = [];
         this.position = createVector(x, y);
-        var angle = TWO_PI / numberOfLines;
-        for (var i = 0; i < TWO_PI; i += angle) {
-            this.rays.push(new Ray(this.position, i));
+        var deltaTheta = TWO_PI / numberOfLines;
+        for (var i = 0; i < numberOfLines; i++) {
+            var theta = i * deltaTheta;
+            this.rays.push(new Ray(this.position, theta));
         }
     }
     Particle.prototype.update = function (x, y) {
@@ -42,15 +43,15 @@ var Particle = (function () {
                     }
                 }
             }
+            push();
+            stroke(255, 100);
             if (closestIntersectionPoint) {
-                push();
-                stroke(255);
                 line(this.position.x, this.position.y, closestIntersectionPoint.x, closestIntersectionPoint.y);
-                pop();
             }
             else {
                 ray.drawInfinite();
             }
+            pop();
         }
     };
     return Particle;
@@ -61,16 +62,10 @@ var Ray = (function () {
         this.direction = p5.Vector.fromAngle(angle);
     }
     Ray.prototype.draw = function () {
-        push();
-        stroke(255);
         line(this.position.x, this.position.y, this.position.x + this.direction.x * 10, this.position.y + this.direction.y * 10);
-        pop();
     };
     Ray.prototype.drawInfinite = function () {
-        push();
-        stroke(255);
         line(this.position.x, this.position.y, this.position.x + this.direction.x * 1000, this.position.y + this.direction.y * 1000);
-        pop();
     };
     Ray.prototype.projectTo = function (wall) {
         var x1 = wall.x1;
@@ -95,12 +90,12 @@ var Ray = (function () {
 }());
 var particle;
 var walls = [];
-var NUM_BOUNDARIES = 5;
+var NUM_WALLS = 5;
 function setup() {
     createCanvas(windowWidth, windowHeight);
-    particle = new Particle(windowWidth / 2, windowHeight / 2, 100);
+    particle = new Particle(windowWidth / 2, windowHeight / 2, 360);
     var BOUNDARY_WINDOW_PADDING = 100;
-    for (var i = 0; i < NUM_BOUNDARIES; i++) {
+    for (var i = 0; i < NUM_WALLS; i++) {
         var randomX1 = BOUNDARY_WINDOW_PADDING +
             Math.random() * (windowWidth - BOUNDARY_WINDOW_PADDING);
         var randomY1 = BOUNDARY_WINDOW_PADDING +

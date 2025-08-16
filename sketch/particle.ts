@@ -5,9 +5,10 @@ class Particle {
   constructor(x: number, y: number, numberOfLines: number) {
     this.position = createVector(x, y);
 
-    const angle = TWO_PI / numberOfLines;
-    for (let i = 0; i < TWO_PI; i += angle) {
-      this.rays.push(new Ray(this.position, i));
+    let deltaTheta = TWO_PI / numberOfLines;
+    for (let i = 0; i < numberOfLines; i++) {
+      const theta = i * deltaTheta;
+      this.rays.push(new Ray(this.position, theta));
     }
   }
 
@@ -17,7 +18,6 @@ class Particle {
 
   draw(walls?: Boundary[]) {
     for (const ray of this.rays) {
-      // ray.draw();
       let closestIntersectionPoint;
       let closestIntersectionDistance = Infinity;
       for (const wall of walls) {
@@ -36,19 +36,19 @@ class Particle {
         }
       }
 
+      push();
+      stroke(255, 100);
       if (closestIntersectionPoint) {
-        push();
-        stroke(255);
         line(
           this.position.x,
           this.position.y,
           closestIntersectionPoint.x,
           closestIntersectionPoint.y,
         );
-        pop();
       } else {
         ray.drawInfinite();
       }
+      pop();
     }
   }
 }

@@ -1,13 +1,14 @@
 let particle: Particle;
 const walls: Boundary[] = [];
-const NUM_BOUNDARIES = 5;
+
+const NUM_WALLS = 5;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  particle = new Particle(windowWidth / 2, windowHeight / 2, 100);
+  particle = new Particle(windowWidth / 2, windowHeight / 2, 360);
   const BOUNDARY_WINDOW_PADDING = 100;
-  for (let i = 0; i < NUM_BOUNDARIES; i++) {
+  for (let i = 0; i < NUM_WALLS; i++) {
     const randomX1 =
       BOUNDARY_WINDOW_PADDING +
       Math.random() * (windowWidth - BOUNDARY_WINDOW_PADDING);
