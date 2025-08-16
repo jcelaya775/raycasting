@@ -5,7 +5,6 @@ This is a 2D implementation of [Ray casting](https://en.wikipedia.org/wiki/Ray_c
 with [p5.js](https://p5js.org/)
 and [typescript](https://www.typescriptlang.org/).
 
-Current Progress:
 ![demo.png](demo.png)
 
 ## Getting Started

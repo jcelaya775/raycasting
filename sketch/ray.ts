@@ -8,27 +8,21 @@ class Ray {
   }
 
   draw() {
-    push();
-    stroke(255);
     line(
       this.position.x,
       this.position.y,
       this.position.x + this.direction.x * 10,
       this.position.y + this.direction.y * 10,
     );
-    pop();
   }
 
   drawInfinite() {
-    push();
-    stroke(255);
     line(
       this.position.x,
       this.position.y,
       this.position.x + this.direction.x * 1000,
       this.position.y + this.direction.y * 1000,
     );
-    pop();
   }
 
   projectTo(wall: Boundary) {
